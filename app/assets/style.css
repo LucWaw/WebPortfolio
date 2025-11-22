@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+html,
+body,
+#__nuxt {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto, arial;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 151%;
+    --orange: #eb9850;
+}
+
+h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    color: var(--blue-1);
+    justify-content: center;
+}
+
+header {
+    align-items: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--orange);
+    padding: 44px 0;
+}
+
+header .droite {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 48px;
+    line-height: 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+header ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+header .button {
+    text-decoration: none;
+    color: var(--blue-1);
+    display: flex;
+    align-items: center;
+}
+
+header .button_page {
+    color: inherit;
+}
+
+.droite > ul {
+    list-style-type: none;
+    display: flex;
+    gap: 150px;
+    align-items: center;
+}
+
+.about_me {
+    align-items: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 44px 0;
+}
+
+.about_me p {
+    inline-size: 650px;
+}
+
+.about_me img {
+    inline-size: 30%;
+}
+
+@media screen and (max-width: 996px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .gauche {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .Nom {
+        font-size: 2em;
+        margin: 0;
+    }
+
+    header .droite {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .droite ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+        padding: 0;
+    }
+
+    header .button {
+        margin: 0;
+    }
+
+    .about_me {
+        flex-direction: column;
+        padding: 50px 20px;
+    }
+
+    .about_me p {
+        inline-size: auto;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .about_me img {
+        inline-size: 50%;
+    }
+
+    body,
+    html {
+        overflow-x: hidden;
+    }
+
+    .portfolio_carousel,
+    .carousel-container {
+        overflow: hidden;
+    }
+}
