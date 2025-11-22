@@ -7,5 +7,4 @@
 </template>
 <style>
 @import "@/assets/style.css";
-@import "@/assets/carousel.css";
 </style>
