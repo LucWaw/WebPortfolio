@@ -10,16 +10,33 @@
                     :key="i"
                     :data-index="i"
                 >
+                    <div class="calc"></div>
+                    <div class="infos">
+                        <img
+                            class="logo_gitplatform"
+                            src="/images/GitHub.svg"
+                            alt="Logo de gitlab ou github en fonction de la plateforme"
+                        />
+                        <div class="text">
+                            <h3>Nom du projet</h3>
+                            <p>
+                                List de commit : Lorem ipsum dolor sit amet,
+                                consectetur adipiscing elit, sed do eiusmod
+                                tempor incididunt ut labore et dolore magna
+                                aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex
+                                ea commodo consequat. Duis aute irure dolor in
+                                reprehenderit in voluptate velit esse cillum
+                                dolore eu fugiat n
+                            </p>
+                        </div>
+                    </div>
+
                     <img :src="item" alt="" />
                 </div>
             </div>
 
             <button class="nav-arrow right">›</button>
-        </div>
-
-        <div class="member-info">
-            <h2 class="member-name" style="display: none">Name</h2>
-            <p class="member-role" style="display: none">Role</p>
         </div>
 
         <div class="dots">
@@ -35,15 +52,19 @@
 
 <script setup>
 const images = [
-    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=3687...",
-    "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=3870...",
-    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900...",
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900...",
-    "https://images.unsplash.com/photo-1655249481446-25d575f1c054?w=900...",
-    "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80...",
+    "https://cdn.pixabay.com/photo/2016/03/18/15/02/ufo-1265186_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/02/11/10/33/spaceship-2057420_1280.jpg",
+    "https://cdn.pixabay.com/photo/2024/03/13/19/06/ai-generated-8631634_1280.jpg",
+    "https://cdn.pixabay.com/photo/2021/02/27/18/29/fantasy-6055404_1280.jpg",
+    "https://cdn.pixabay.com/photo/2024/07/30/17/40/ai-generated-8932783_1280.jpg",
+    "https://cdn.pixabay.com/photo/2020/03/09/15/59/scifi-4916165_1280.jpg",
 ];
 
-useHead({
-    script: [{ src: "/carousel.js", defer: true }],
+import { onMounted } from "vue";
+
+onMounted(() => {
+    useHead({
+        script: [{ src: "/carousel.js", defer: true }],
+    });
 });
 </script>

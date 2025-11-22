@@ -2,24 +2,14 @@ function isMobile() {
     return window.innerWidth <= 996;
 }
 
-const teamMembers = [
-    { name: "Emily Kim", role: "Founder" },
-    { name: "Michael Steward", role: "Creative Director" },
-    { name: "Emma Rodriguez", role: "Lead Developer" },
-    { name: "Julia Gimmel", role: "UX Designer" },
-    { name: "Lisa Anderson", role: "Marketing Manager" },
-    { name: "James Wilson", role: "Product Manager" },
-];
-
 const cards = document.querySelectorAll(".card");
 const dots = document.querySelectorAll(".dot");
-const memberName = document.querySelector(".member-name");
-const memberRole = document.querySelector(".member-role");
+/*const memberName = document.querySelector(".member-name");
+const memberRole = document.querySelector(".member-role");*/
 const leftArrow = document.querySelector(".nav-arrow.left");
 const rightArrow = document.querySelector(".nav-arrow.right");
 let currentIndex = 0;
 let isAnimating = false;
-console.log("carousel.js loaded");
 
 function updateCarousel(newIndex) {
     if (isAnimating) return;
@@ -58,14 +48,14 @@ function updateCarousel(newIndex) {
         dot.classList.toggle("active", i === currentIndex);
     });
 
-    memberName.style.opacity = "0";
-    memberRole.style.opacity = "0";
+    /*memberName.style.opacity = "0";
+    memberRole.style.opacity = "0";*/
 
     setTimeout(() => {
-        memberName.textContent = teamMembers[currentIndex].name;
+        /*memberName.textContent = teamMembers[currentIndex].name;
         memberRole.textContent = teamMembers[currentIndex].role;
         memberName.style.opacity = "1";
-        memberRole.style.opacity = "1";
+        memberRole.style.opacity = "1";*/
     }, 300);
 
     setTimeout(() => {

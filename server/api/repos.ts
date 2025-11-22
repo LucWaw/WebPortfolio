@@ -18,6 +18,8 @@ async function fetchAllRepos(
         fetchGitHubRepos(githubUsername, tokenGithub, githubUsername),
         fetchGitLabRepos(gitlabUsername, tokenGitLab, githubUsername),
     ]);
+    console.log("repos loaded");
+
     return [...githubRepos, ...gitlabRepos];
 }
 
