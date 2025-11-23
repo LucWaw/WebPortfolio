@@ -9,18 +9,21 @@ async function fetchGitLabRepos(
         "PRIVATE-TOKEN": token,
         "User-Agent": userAgent,
         Accept: "application/json",
+        crossOriginResourcePolicy: "false",
     };
 
     let projectsResponse: Response;
     try {
         projectsResponse = await fetch(
-            `https://gitlab.com/api/v4/users/${username}/projects?per_page=100`,
+            `https://gitlab.com/api/v4/users/${username}/projects?per_page=100&visibility=public`,
             { headers }
         );
     } catch (err) {
         console.error("Network error while fetching GitLab projects:", err);
         return [];
     }
+
+    console.log(projectsResponse.headers);
 
     if (!projectsResponse.ok) {
         if (projectsResponse.status === 403) {
@@ -117,9 +120,7 @@ async function fetchGitLabRepos(
             ? Object.keys(languagesData)
             : [];
 
-        const image =
-            project.avatar_url ||
-            `https://gitlab.com/${username}/${project.name}/project-avatar.png`;
+        const image = project.avatar_url || `noPhotoGitLab.png`;
 
         repositories.push(
             new Repository(project.name, lastFivecommitsList, image, languages)

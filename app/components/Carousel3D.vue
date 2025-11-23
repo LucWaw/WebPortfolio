@@ -1,7 +1,8 @@
 <template>
     <section class="portfolio_carousel">
-        <div v-if="pending">Chargement...</div>
-        <div v-else-if="error">Erreur de chargement</div>
+        <div v-if="error">Erreur de chargement</div>
+
+        <div v-else-if="pending || !repos">Chargement...</div>
 
         <div v-else class="carousel-container">
             <button class="nav-arrow left" @click="prev">‹</button>
@@ -64,33 +65,37 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-// Import de ton type Repository (ajuste le chemin si besoin)
+
 import type { Repository } from "./Repo";
 
-// --- 1. DONNÉES ---
+// --- 1. Data ---
 const {
     data: repos,
     pending,
     error,
-} = await useFetch<Repository[]>("/api/repos");
+} = useFetch<Repository[]>("/api/reposInfos", {
+    key: "reposInfos-data",
+    lazy: true,
+    server: false,
+});
 
-// --- 2. ÉTAT DU CAROUSEL ---
+// --- 2. Carousel State ---
 const currentIndex = ref(0);
 const isMobile = ref(false);
 
-// --- 3. LOGIQUE DES CLASSES (C'est ce qui fait marcher ton CSS) ---
+// --- 3. Class Logic (This is what makes your CSS work) ---
 const getCardClass = (index: number) => {
     if (!repos.value) return "";
 
     const total = repos.value.length;
-    // Calcul de la distance circulaire
+    // Circular offset calculation
     const offset = (index - currentIndex.value + total) % total;
 
     if (offset === 0) return "center";
     if (offset === 1) return "right-1";
     if (offset === total - 1) return "left-1";
 
-    // Si pas mobile, on affiche aussi les cartes en profondeur 2
+    // If not mobile, also show cards at depth 2
     if (!isMobile.value) {
         if (offset === 2) return "right-2";
         if (offset === total - 2) return "left-2";
@@ -115,23 +120,23 @@ const goTo = (index: number) => {
     currentIndex.value = index;
 };
 
-// --- 5. UTILITAIRES ---
+// --- 5. Utilitaries ---
 const getPlatformLogo = (url: string) => {
     if (!url) return null;
     const lower = url.toLowerCase();
-    // Assure-toi que ces images existent bien dans ton dossier public/images/
+
     if (lower.includes("github")) return "/images/GitHub.svg";
     if (lower.includes("gitlab")) return "/images/Gitlab.svg";
     return "/images/GitHub.svg"; // Fallback
 };
 
-// Formattage simple de la date (ex: 2025-10-12)
+// Simple date formatting (e.g., 2025-10-12)
 const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
     return dateStr.split("T")[0];
 };
 
-// --- 6. EVENTS (Responsive + Clavier) ---
+// --- 6. EVENTS (Responsive + Keyboard) ---
 const checkMobile = () => {
     if (typeof window !== "undefined") {
         isMobile.value = window.innerWidth <= 996;
@@ -156,10 +161,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* J'ai collé ICI ton CSS original qui fonctionnait.
-   J'ai juste ajouté 'scoped' pour la sécurité VueJS.
-*/
-
 * {
     margin: 0;
     padding: 0;
@@ -199,26 +200,26 @@ onUnmounted(() => {
 .card {
     position: absolute;
     width: 280px;
-    height: 380px;
+    height: 500px;
     background: white;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
-    /* Important : par défaut, les cartes sont cachées si elles n'ont pas de classe positionnelle */
     opacity: 0;
     pointer-events: none;
 }
 
 .card img.bg-img {
+    object-position: top center;
+    height: calc(100% + 20px);
+    transform: translateY(-20px);
     width: 100%;
-    height: 100%;
     object-fit: cover;
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Le calque violet */
 .card .calc {
     position: absolute;
     width: 100%;
@@ -229,9 +230,8 @@ onUnmounted(() => {
         to bottom,
         transparent 0%,
         rgba(78, 24, 146, 0.1) 30%,
-        /* Légère teinte pour casser la luminosité */ rgba(78, 24, 146, 0.8) 60%,
-        /* Devient sombre juste derrière le logo */ rgba(78, 24, 146, 1) 100%
-            /* Totalement opaque en bas pour le texte */
+        rgba(78, 24, 146, 0.8) 60%,
+        rgba(78, 24, 146, 1) 100%
     );
 
     display: none;
@@ -245,7 +245,6 @@ onUnmounted(() => {
     margin-bottom: 12px;
     z-index: 45;
 
-    /* Ajout : Ombre portée blanche/noire pour détacher le logo du fond */
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
@@ -260,14 +259,11 @@ onUnmounted(() => {
     flex-direction: column;
     justify-content: end;
     z-index: 40;
-    opacity: 0; /* Caché par défaut */
+    opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
 }
 
-/* -- ETATS ACTIFS (Gérés par Vue via :class) -- */
-
-/* CENTER : Carte active */
 .card.center {
     z-index: 10;
     transform: scale(1.1) translateZ(0);
@@ -439,6 +435,15 @@ onUnmounted(() => {
         width: 200px;
         height: 280px;
     }
+
+    .card .text h3 {
+        font-size: 20px;
+        line-height: 24px;
+    }
+    .card .commits li {
+        font-size: 10px;
+    }
+
     .card.left-2 {
         transform: translateX(-250px) scale(0.8) translateZ(-300px);
     }
@@ -450,6 +455,12 @@ onUnmounted(() => {
     }
     .card.right-2 {
         transform: translateX(250px) scale(0.8) translateZ(-300px);
+    }
+
+    .dots {
+        /* separate the dots in two groups one on top of the other */
+        flex-wrap: wrap;
+        gap: 15px;
     }
 }
 </style>
