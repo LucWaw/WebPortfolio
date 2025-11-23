@@ -1,5 +1,3 @@
-import { Repository } from "./Repo";
-
 async function fetchGitLabRepos(
     username: string,
     token: string,
@@ -66,7 +64,14 @@ async function fetchGitLabRepos(
         } catch (err) {
             console.error(`Network error for project ${project.name}:`, err);
             repositories.push(
-                new Repository(project.name, [], project.avatar_url || "", [])
+                new Repository(
+                    project.name,
+                    [],
+                    project.avatar_url || "",
+                    [],
+                    "",
+                    false
+                )
             );
             continue;
         }
@@ -123,7 +128,7 @@ async function fetchGitLabRepos(
         const image = project.avatar_url || `noPhotoGitLab.png`;
 
         repositories.push(
-            new Repository(project.name, lastFivecommitsList, image, languages)
+            new Repository(project.name, lastFivecommitsList, image, languages, project.web_url, false)
         );
     }
 

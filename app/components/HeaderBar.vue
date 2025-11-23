@@ -11,7 +11,7 @@
                 </li>
                 <li>
                     <NuxtLink to="/portfolio" class="button_page"
-                        >Projets</NuxtLink
+                        >Projets par technologies</NuxtLink
                     >
                 </li>
             </ul>

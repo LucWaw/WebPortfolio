@@ -1,6 +1,8 @@
-import { Repository } from "./Repo";
-
-async function fetchGitHubRepos(username: string, token: string, userAgent: string): Promise<Repository[]> {
+async function fetchGitHubRepos(
+    username: string,
+    token: string,
+    userAgent: string
+): Promise<Repository[]> {
     const headers: Record<string, string> = {
         Authorization: `token ${token}`,
         "User-Agent": userAgent,
@@ -60,7 +62,9 @@ async function fetchGitHubRepos(username: string, token: string, userAgent: stri
                     repo.name,
                     [],
                     `https://raw.githubusercontent.com/${username}/${repo.name}/main/images/1.png`,
-                    []
+                    [],
+                    "",
+                    true
                 )
             );
             continue;
@@ -116,12 +120,11 @@ async function fetchGitHubRepos(username: string, token: string, userAgent: stri
         const image = `https://raw.githubusercontent.com/${username}/${repo.name}/main/images/1.png`;
 
         repositories.push(
-            new Repository(repo.name, lastFivecommitsList, image, languages)
+            new Repository(repo.name, lastFivecommitsList, image, languages, repo.html_url, true)
         );
     }
 
     return repositories;
 }
-
 
 export { fetchGitHubRepos };

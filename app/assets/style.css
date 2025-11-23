@@ -28,7 +28,7 @@ h1 {
     font-family: Roboto;
     font-style: normal;
     font-weight: 900;
-    font-size: 48px;
+    font-size: 35px;
     line-height: 30px;
     display: flex;
     align-items: center;
@@ -49,7 +49,7 @@ header .droite {
     font-family: Roboto;
     font-style: normal;
     font-weight: 300;
-    font-size: 48px;
+    font-size: 35px;
     line-height: 30px;
     text-decoration: none;
     display: flex;
@@ -95,7 +95,7 @@ header .button_page {
 }
 
 .about_me img {
-    inline-size: 30%;
+    inline-size: 20%;
 }
 
 @media screen and (max-width: 996px) {

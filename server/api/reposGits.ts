@@ -6,7 +6,6 @@
 
 import { fetchGitHubRepos } from "./fetchGitHubRepos";
 import { fetchGitLabRepos } from "./fetchGitLabRepos";
-import { Repository } from "./Repo";
 
 async function fetchAllRepos(
     githubUsername: string,
@@ -24,7 +23,9 @@ async function fetchAllRepos(
 }
 
 function shuffleArray(array: any[]) {
+    console.log("shuffling array");
     for (var i = array.length - 1; i > 0; i--) {
+        console.log("shuffling index:", i);
         var j = Math.floor(Math.random() * (i + 1));
         var temp = array[i];
         array[i] = array[j];
@@ -32,21 +33,30 @@ function shuffleArray(array: any[]) {
     }
 }
 
-export default defineEventHandler(async (event) => {
-    const tokenGithub = useRuntimeConfig().githubToken;
-    const {
-        public: { githubUser },
-    } = useRuntimeConfig();
-    const tokenGitLab = useRuntimeConfig().gitlabToken;
-    const {
-        public: { gitlabUser },
-    } = useRuntimeConfig();
+export default defineCachedEventHandler(
+    async (event) => {
+        const tokenGithub = useRuntimeConfig().githubToken;
+        const {
+            public: { githubUser },
+        } = useRuntimeConfig();
+        const tokenGitLab = useRuntimeConfig().gitlabToken;
+        const {
+            public: { gitlabUser },
+        } = useRuntimeConfig();
 
-    const repos = await fetchAllRepos(
-        githubUser,
-        gitlabUser,
-        tokenGithub,
-        tokenGitLab
-    );
-    return repos;
-});
+        const repos = await fetchAllRepos(
+            githubUser,
+            gitlabUser,
+            tokenGithub,
+            tokenGitLab
+        );
+        shuffleArray(repos);
+        return repos;
+    },
+    {
+        maxAge: 60 * 60, // 1 hour
+        swr: false,
+        name: "git-repos",
+        getKey: () => "all-git-repos",
+    }
+);

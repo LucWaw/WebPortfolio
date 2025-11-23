@@ -3,7 +3,6 @@
         <div v-if="error">Erreur de chargement</div>
 
         <div v-else-if="pending || !repos">Chargement...</div>
-
         <div v-else class="carousel-container">
             <button class="nav-arrow left" @click="prev">‹</button>
 
@@ -20,25 +19,30 @@
                     <div class="infos">
                         <img
                             class="logo_gitplatform"
-                            :src="getPlatformLogo(repo.image)"
+                            :src="getPlatformLogo(repo.isGitHub)"
                             alt="Plateforme Logo"
-                            v-if="getPlatformLogo(repo.image)"
+                            v-if="getPlatformLogo(repo.isGitHub)"
                         />
 
                         <div class="text">
-                            <h3>{{ repo.name }}</h3>
+                            <h3>{{ truncate(repo.name, 16) }}</h3>
 
                             <ul class="commits">
                                 <li
-                                    v-for="(
-                                        commit, cIndex
-                                    ) in repo.lastFivecommitsList"
+                                    v-for="(commit, cIndex) in getFiveCommits(
+                                        repo.lastFivecommitsList
+                                    )"
                                     :key="cIndex"
+                                    :class="{ empty: !commit }"
                                 >
-                                    <span class="date">{{
-                                        formatDate(commit.date)
-                                    }}</span>
-                                    {{ commit.message.slice(0, 40) }}...
+                                    <span class="date" v-if="commit">
+                                        {{ formatDate(commit.date) }}
+                                    </span>
+                                    {{
+                                        commit
+                                            ? truncate(commit.message, 40)
+                                            : ""
+                                    }}
                                 </li>
                             </ul>
                         </div>
@@ -64,17 +68,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+function truncate(text: string, limit: number): string {
+    if (!text) return "";
+    return text.length > limit ? text.slice(0, limit) + "..." : text;
+}
 
-import type { Repository } from "./Repo";
+import { ref, onMounted, onUnmounted } from "vue";
 
 // --- 1. Data ---
 const {
     data: repos,
     pending,
     error,
-} = useFetch<Repository[]>("/api/reposInfos", {
-    key: "reposInfos-data",
+} = useFetch<Repository[]>("/api/reposGits", {
+    key: "reposGits-data",
     lazy: true,
     server: false,
 });
@@ -83,7 +90,7 @@ const {
 const currentIndex = ref(0);
 const isMobile = ref(false);
 
-// --- 3. Class Logic (This is what makes your CSS work) ---
+// --- 3. Class Logic ---
 const getCardClass = (index: number) => {
     if (!repos.value) return "";
 
@@ -117,17 +124,35 @@ const prev = () => {
 };
 
 const goTo = (index: number) => {
+    console.log("Go to index:", index);
+    if (index == currentIndex.value) {
+        // Guard access to repos.value and the repo's url
+        const repo = repos.value?.[index];
+        const url = repo?.url;
+        if (url) {
+            window.open(url, "_blank");
+        } else {
+            // URL or repo not available
+            console.warn("Repository URL is not available for index", index);
+        }
+        return;
+    }
+    if (!repos.value) return;
     currentIndex.value = index;
 };
 
 // --- 5. Utilitaries ---
-const getPlatformLogo = (url: string) => {
-    if (!url) return null;
-    const lower = url.toLowerCase();
+const getPlatformLogo = (isGithub: boolean): string => {
+    if (isGithub) return "/images/GitHub.svg";
+    else return "/images/GitLab.svg";
+};
 
-    if (lower.includes("github")) return "/images/GitHub.svg";
-    if (lower.includes("gitlab")) return "/images/Gitlab.svg";
-    return "/images/GitHub.svg"; // Fallback
+const getFiveCommits = (commits: Array<any>) => {
+    const result = [...commits];
+    while (result.length < 5) {
+        result.push(null);
+    }
+    return result.slice(0, 5);
 };
 
 // Simple date formatting (e.g., 2025-10-12)
@@ -174,7 +199,7 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* overflow: hidden; Empêche le scroll horizontal indésirable */
+    margin-top: 20px;
 }
 
 .carousel-container {
@@ -208,13 +233,12 @@ onUnmounted(() => {
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
     opacity: 0;
-    pointer-events: none;
 }
 
 .card img.bg-img {
     object-position: top center;
-    height: calc(100% + 20px);
-    transform: translateY(-20px);
+    height: calc(100% + 25px);
+    transform: translateY(-25px);
     width: 100%;
     object-fit: cover;
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -343,11 +367,18 @@ onUnmounted(() => {
 }
 
 .card .text h3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    line-clamp: 1;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
     font-family: Roboto, sans-serif;
     font-weight: 900;
     font-size: 26px;
     line-height: 30px;
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .card .commits {
@@ -358,6 +389,14 @@ onUnmounted(() => {
 }
 
 .card .commits li {
+    min-height: 18px;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
     font-family: Roboto, sans-serif;
     font-weight: 300;
     font-size: 12px; /* Un peu plus petit pour les commits */
@@ -377,7 +416,8 @@ onUnmounted(() => {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 60px;
+    margin-top: 100px;
+    padding-bottom: 5px;
 }
 
 .dot {
@@ -431,6 +471,15 @@ onUnmounted(() => {
 
 /* -- MEDIA QUERIES -- */
 @media (max-width: 996px) {
+    .carousel-container {
+        width: 100%;
+        max-width: 1200px;
+        height: 450px;
+        position: relative;
+        perspective: 1000px;
+        margin-top: 0px;
+    }
+
     .card {
         width: 200px;
         height: 280px;
@@ -459,8 +508,14 @@ onUnmounted(() => {
 
     .dots {
         /* separate the dots in two groups one on top of the other */
+        width: 90%;
         flex-wrap: wrap;
         gap: 15px;
+        margin-top: 0px;
+    }
+
+    .nav-arrow {
+        background: rgba(8, 42, 123, 0.8);
     }
 }
 </style>
