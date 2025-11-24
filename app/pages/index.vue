@@ -5,9 +5,3 @@
         <AboutMe />
     </main>
 </template>
-
-<style>
-hr {
-    margin-top: 39px;
-}
-</style>

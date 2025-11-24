@@ -100,7 +100,7 @@ header .button_page {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    padding: 44px 0;
+    padding: 0px 20px;
 }
 
 .about_me p {
@@ -109,6 +109,52 @@ header .button_page {
 
 .about_me img {
     inline-size: 20%;
+}
+
+footer {
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 60px;
+}
+
+footer .contacts h1 {
+    margin-bottom: 23px;
+}
+
+footer .contacts {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+footer .downloads {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+footer .downloads .cv {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 35px;
+    color: red;
+}
+
+footer .networks {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+footer .logo-links {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
 }
 
 @media screen and (max-width: 996px) {
@@ -147,7 +193,6 @@ header .button_page {
 
     .about_me {
         flex-direction: column;
-        padding: 50px 20px;
     }
 
     .about_me p {
