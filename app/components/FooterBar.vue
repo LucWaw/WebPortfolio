@@ -17,22 +17,13 @@
             <h1>Réseaux</h1>
             <div class="logo-links">
                 <a href="https://www.linkedin.com/in/lucas-bigeard">
-                    <img
-                        src="/images/Linkedin.svg"
-                        alt="HTML tutorial"
-                        style="width: 42px; height: 42px"
+                    <img src="/images/Linkedin.svg" alt="HTML tutorial"
                 /></a>
                 <a href="https://github.com/LucWaw?tab=repositories">
-                    <img
-                        src="/images/Github-black.svg"
-                        alt="HTML tutorial"
-                        style="width: 42px; height: 42px"
+                    <img src="/images/Github-black.svg" alt="HTML tutorial"
                 /></a>
                 <a href="https://gitlab.com/users/LBigeard/projects">
-                    <img
-                        src="/images/Gitlab-black.svg"
-                        alt="HTML tutorial"
-                        style="width: 42px; height: 42px"
+                    <img src="/images/Gitlab-black.svg" alt="HTML tutorial"
                 /></a>
             </div>
         </div>
