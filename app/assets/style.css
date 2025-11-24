@@ -24,6 +24,19 @@ body {
     --orange: #eb9850;
 }
 
+.button_base {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 35px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    color: var(--blue-1);
+    justify-content: center;
+    text-decoration: none;
+}
+
 h1 {
     font-family: Roboto;
     font-style: normal;

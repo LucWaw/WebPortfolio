@@ -1,13 +1,15 @@
 <template>
     <header>
         <div class="gauche">
-            <h1 class="Nom">Lucas Bigeard</h1>
+            <NuxtLink to="/" class="button_base">Lucas Bigeard</NuxtLink>
         </div>
 
         <nav class="droite">
             <ul>
                 <li>
-                    <NuxtLink to="#about" class="button">À propos</NuxtLink>
+                    <NuxtLink :to="{ path: '/', hash: '#about' }" class="button"
+                        >À propos</NuxtLink
+                    >
                 </li>
                 <li>
                     <NuxtLink to="/portfolio" class="button_page"
