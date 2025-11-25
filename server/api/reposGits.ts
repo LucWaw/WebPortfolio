@@ -4,8 +4,8 @@
 
 // server/api/github/repos.get.ts
 
-import { fetchGitHubRepos } from "./fetchGitHubRepos";
-import { fetchGitLabRepos } from "./fetchGitLabRepos";
+import { fetchGitHubRepos } from "../fetchGits/fetchGitHubRepos";
+import { fetchGitLabRepos } from "../fetchGits/fetchGitLabRepos";
 
 async function fetchAllRepos(
     githubUsername: string,
@@ -24,10 +24,10 @@ async function fetchAllRepos(
 
 function shuffleArray(array: any[]) {
     console.log("shuffling array");
-    for (var i = array.length - 1; i > 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
         console.log("shuffling index:", i);
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
@@ -35,6 +35,9 @@ function shuffleArray(array: any[]) {
 
 export default defineCachedEventHandler(
     async (event) => {
+        /*throw createError({
+            
+        });*/
         const tokenGithub = useRuntimeConfig().githubToken;
         const {
             public: { githubUser },

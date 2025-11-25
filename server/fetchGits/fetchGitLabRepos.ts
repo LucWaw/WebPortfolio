@@ -128,7 +128,14 @@ async function fetchGitLabRepos(
         const image = project.avatar_url || `noPhotoGitLab.png`;
 
         repositories.push(
-            new Repository(project.name, lastFivecommitsList, image, languages, project.web_url, false)
+            new Repository(
+                project.name,
+                lastFivecommitsList,
+                image,
+                languages,
+                project.web_url,
+                false
+            )
         );
     }
 

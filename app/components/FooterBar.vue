@@ -2,8 +2,8 @@
     <footer>
         <div class="contacts">
             <h1>Contact</h1>
-            <p>lucas.bigeard@outlook.com</p>
-            <p>07 81 36 17 05</p>
+            <p></p>
+            <p></p>
         </div>
         <div class="downloads">
             <a href="/files/CV_Lucas_Bigeard_2025.pdf" class="cv" download

@@ -1,10 +1,10 @@
 <template>
     <header>
-        <div class="gauche">
+        <div class="left">
             <NuxtLink to="/" class="button_base">Lucas Bigeard</NuxtLink>
         </div>
 
-        <nav class="droite">
+        <div class="nav">
             <ul>
                 <li>
                     <NuxtLink :to="{ path: '/', hash: '#about' }" class="button"
@@ -17,6 +17,7 @@
                     >
                 </li>
             </ul>
-        </nav>
+        </div>
+        <div class="right"></div>
     </header>
 </template>

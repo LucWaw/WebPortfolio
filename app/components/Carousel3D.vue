@@ -83,7 +83,6 @@ const {
 } = useFetch<Repository[]>("/api/reposGits", {
     key: "reposGits-data",
     lazy: true,
-    server: false,
 });
 
 // --- 2. Carousel State ---
@@ -155,10 +154,11 @@ const getFiveCommits = (commits: Array<any>) => {
     return result.slice(0, 5);
 };
 
-// Simple date formatting (e.g., 2025-10-12)
+// Simple date formatting (e.g., 15/02/2025)
 const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
-    return dateStr.split("T")[0];
+    const date = new Date(dateStr);
+    return new Intl.DateTimeFormat("fr-FR").format(date);
 };
 
 // --- 6. EVENTS (Responsive + Keyboard) ---

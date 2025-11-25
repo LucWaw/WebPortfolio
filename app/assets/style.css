@@ -21,7 +21,7 @@ body {
     font-weight: 300;
     font-size: 20px;
     line-height: 151%;
-    --orange: #eb9850;
+    --headercolor: #5387d9;
 }
 
 .button_base {
@@ -30,11 +30,9 @@ body {
     font-weight: 900;
     font-size: 35px;
     line-height: 30px;
-    display: flex;
-    align-items: center;
     color: var(--blue-1);
-    justify-content: center;
     text-decoration: none;
+    margin: 0;
 }
 
 h1 {
@@ -50,57 +48,59 @@ h1 {
 }
 
 header {
-    align-items: center;
-    text-decoration: none;
     display: flex;
-    justify-content: space-around;
-    background-color: var(--orange);
-    padding: 44px 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 44px 40px;
+    border: solid #cdd5df 1px;
+    border-radius: 0 0 20px 20px;
 }
 
-header .droite {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 35px;
-    line-height: 30px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
+header .left {
+    flex-shrink: 0;
 }
 
-header ul {
-    list-style-type: none;
+header .right {
+    flex-shrink: 0;
+    width: 224px;
+}
+
+.nav {
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 28px;
+}
+
+.nav > ul {
+    list-style: none;
     display: flex;
     align-items: center;
-    text-decoration: none;
+
+    gap: 60px;
 }
 
 header .button {
-    text-decoration: none;
     color: var(--blue-1);
-    display: flex;
-    align-items: center;
+    text-decoration: none;
 }
 
-header .button_page {
+.button_page {
     color: inherit;
-}
-
-.droite > ul {
-    list-style-type: none;
-    display: flex;
-    gap: 150px;
-    align-items: center;
+    text-decoration: none;
 }
 
 .about_me {
+    border-radius: 20px;
+
     align-items: center;
     text-decoration: none;
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    padding: 0px 20px;
+    padding: 60px 20px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    background: #f9fbfd;
 }
 
 .about_me p {
@@ -109,6 +109,7 @@ header .button_page {
 
 .about_me img {
     inline-size: 20%;
+    border-radius: 20px;
 }
 
 footer {
@@ -161,33 +162,26 @@ footer .logo-links {
     header {
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        gap: 20px;
         padding: 20px;
     }
 
-    .gauche {
-        margin-bottom: 20px;
+    header .left {
+        width: 100%;
         text-align: center;
+    }
+
+    header .nav > ul {
+        gap: 10px;
+        font-size: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
     }
 
     .Nom {
         font-size: 2em;
-        margin: 0;
-    }
-
-    header .droite {
-        font-size: 20px;
-        margin: 0;
-    }
-
-    .droite ul {
-        flex-direction: row;
-        justify-content: center;
-        gap: 20px;
-        padding: 0;
-    }
-
-    header .button {
         margin: 0;
     }
 
