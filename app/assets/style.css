@@ -24,17 +24,6 @@ body {
     --headercolor: #5387d9;
 }
 
-.button_base {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 900;
-    font-size: 35px;
-    line-height: 30px;
-    color: var(--blue-1);
-    text-decoration: none;
-    margin: 0;
-}
-
 h1 {
     font-family: Roboto;
     font-style: normal;
@@ -45,48 +34,6 @@ h1 {
     align-items: center;
     color: var(--blue-1);
     justify-content: center;
-}
-
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 44px 40px;
-    border: solid #cdd5df 1px;
-    border-radius: 0 0 20px 20px;
-}
-
-header .left {
-    flex-shrink: 0;
-}
-
-header .right {
-    flex-shrink: 0;
-    width: 224px;
-}
-
-.nav {
-    font-family: Roboto, sans-serif;
-    font-weight: 500;
-    font-size: 28px;
-}
-
-.nav > ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-
-    gap: 60px;
-}
-
-header .button {
-    color: var(--blue-1);
-    text-decoration: none;
-}
-
-.button_page {
-    color: inherit;
-    text-decoration: none;
 }
 
 .about_me {
@@ -159,27 +106,6 @@ footer .logo-links {
 }
 
 @media screen and (max-width: 996px) {
-    header {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        padding: 20px;
-    }
-
-    header .left {
-        width: 100%;
-        text-align: center;
-    }
-
-    header .nav > ul {
-        gap: 10px;
-        font-size: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 0;
-        margin: 0;
-    }
-
     .Nom {
         font-size: 2em;
         margin: 0;
