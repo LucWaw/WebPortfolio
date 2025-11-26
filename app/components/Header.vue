@@ -35,7 +35,7 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 44px 40px;
-    border: solid #cdd5df 1px;
+    border-bottom: solid #cdd5df 1px;
     border-radius: 0 0 20px 20px;
     background-color: var(--_surfaceColorStart);
 

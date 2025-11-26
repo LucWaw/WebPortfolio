@@ -1,6 +1,6 @@
 <template>
     <section class="about_me" id="about">
-        <NuxtImg src="/images/me.jpg" alt="Photo de moi" />
+        <NuxtImg src="/images/mej.jpg" alt="Photo de moi" />
 
         <p>
             Je recherche actuellement un emploi.Passionné par la programmation

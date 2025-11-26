@@ -11,7 +11,7 @@ async function fetchRepos(
     return [...githubRepos];
 }
 
-export default defineEventHandler(
+export default defineCachedEventHandler(
     async (event): Promise<ApiResponse<Repository[]>> => {
         const tokenGithub = useRuntimeConfig().githubToken;
         const {
@@ -25,5 +25,11 @@ export default defineEventHandler(
             data: repos,
             message: `${repos.length} GitHub Repositories retrieved successfully`,
         };
+    },
+    {
+        maxAge: 60 * 60,
+        swr: false,
+        name: "github-repos",
+        getKey: () => "github-repos",
     }
 );

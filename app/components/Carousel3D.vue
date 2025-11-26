@@ -1,8 +1,10 @@
 <template>
     <section class="portfolio_carousel">
-        <div v-if="error">Erreur de chargement</div>
+        <div v-if="githubError || gitlabError">Erreur de chargement</div>
 
-        <div v-else-if="pending || !repos">Chargement...</div>
+        <div v-else-if="githubPending || gitlabPending || !repos">
+            Chargement...
+        </div>
         <div v-else class="carousel-container">
             <button class="nav-arrow left" @click="prev">‹</button>
 
@@ -48,7 +50,11 @@
                         </div>
                     </div>
 
-                    <NuxtImg :src="repo.image" :alt="repo.name" class="bg-img" />
+                    <NuxtImg
+                        :src="repo.image"
+                        :alt="repo.name"
+                        class="bg-img"
+                    />
                 </div>
             </div>
 
@@ -73,21 +79,58 @@ function truncate(text: string, limit: number): string {
     return text.length > limit ? text.slice(0, limit) + "..." : text;
 }
 
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 
 // --- 1. Data ---
+type Repo = {
+    name: string;
+    image?: string;
+    url?: string;
+    isGitHub?: boolean;
+    lastFivecommitsList?: Array<any>;
+};
+
 const {
-    data: repos,
-    pending,
-    error,
-} = useFetch<Repository[]>("/api/all-repos", {
-    key: "reposGits-data",
-    lazy: true,
-    transform: (response) => {
-        return response.data || [];
-    },
+    data: githubRepos,
+    status: githubStatus,
+    pending: githubPending,
+    error: githubError,
+    refresh: refreshGithub,
+    clear: clearGithub,
+} = useAsyncData<Repo[]>("github-repos", () => $fetch("/api/github-repos"), {
+    transform: (response) => response.data || [],
 });
-console.log(repos);
+
+const {
+    data: gitlabRepos,
+    status: gitlabStatus,
+    pending: gitlabPending,
+    error: gitlabError,
+    refresh: refreshGitlab,
+    clear: clearGitlab,
+} = useAsyncData<Repo[]>("gitlab-repos", () => $fetch("/api/gitlab-repos"), {
+    transform: (response) => response.data || [],
+});
+
+const repos = ref<Repo[]>([]);
+
+watch(
+    [gitlabRepos, githubRepos],
+    ([newGitlab, newGithub]) => {
+        if (newGitlab && newGithub) {
+            const combined = [...newGitlab, ...newGithub];
+            shuffleArray(combined);
+            repos.value = combined;
+            console.log(
+                "Repos mélangés :",
+                combined.map((r) => r.name)
+            );
+        }
+    },
+    { immediate: true }
+);
+console.log("OUINON");
+console.log("repos shuffle :", repos.value);
 // --- 2. Carousel State ---
 const currentIndex = ref(0);
 const isMobile = ref(false);
@@ -97,7 +140,6 @@ const getCardClass = (index: number) => {
     if (!repos.value) return "";
 
     const total = repos.value.length;
-    // Circular offset calculation
     const offset = (index - currentIndex.value + total) % total;
 
     if (offset === 0) return "center";
@@ -143,14 +185,16 @@ const goTo = (index: number) => {
     currentIndex.value = index;
 };
 
-// --- 5. Utilitaries ---
-const getPlatformLogo = (isGithub: boolean): string => {
-    if (isGithub) return "/images/GitHub.svg";
-    else return "/images/GitLab.svg";
+const getPlatformLogo = (isGithub?: boolean | null): string => {
+    // If explicit boolean true -> GitHub, otherwise default to GitLab or empty fallback
+    if (isGithub === true) return "/images/GitHub.svg";
+    if (isGithub === false) return "/images/GitLab.svg";
+    // When unknown, return empty string so template v-if can control rendering
+    return "";
 };
 
-const getFiveCommits = (commits: Array<any>) => {
-    const result = [...commits];
+const getFiveCommits = (commits?: Array<any>) => {
+    const result = [...(commits || [])];
     while (result.length < 5) {
         result.push(null);
     }
