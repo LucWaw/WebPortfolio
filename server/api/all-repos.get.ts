@@ -37,7 +37,7 @@ export default defineCachedEventHandler(
         };
     },
     {
-        maxAge: 60 * 1,
+        maxAge: 60 * 60,
         swr: false,
         name: "all-repos",
         getKey: () => "all-repos",

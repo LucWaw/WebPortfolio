@@ -11,7 +11,7 @@ async function fetchRepos(
     return [...gitlabRepos];
 }
 
-export default defineCachedEventHandler(
+export default defineEventHandler(
     async (event): Promise<ApiResponse<Repository[]>> => {
         const tokenGitlab = useRuntimeConfig().gitlabToken;
         const {
@@ -26,11 +26,5 @@ export default defineCachedEventHandler(
             data: repos,
             message: `${repos.length} GitLab Repositories retrieved successfully`,
         };
-    },
-    {
-        maxAge: 60 * 1, // 1 minutes
-        swr: false,
-        name: "gitlab-repos",
-        getKey: () => "gitlab-repos",
     }
 );
