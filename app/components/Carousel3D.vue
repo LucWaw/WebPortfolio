@@ -473,7 +473,7 @@ onUnmounted(() => {
 }
 
 /* -- MEDIA QUERIES -- */
-@media (max-width: 996px) {
+@media screen and (max-width: 996px) {
     .carousel-container {
         width: 100%;
         max-width: 1200px;

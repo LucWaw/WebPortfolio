@@ -59,52 +59,6 @@ h1 {
     border-radius: 20px;
 }
 
-footer {
-    align-items: center;
-    display: flex;
-    justify-content: space-around;
-    padding-bottom: 60px;
-}
-
-footer .contacts h1 {
-    margin-bottom: 23px;
-}
-
-footer .contacts {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-footer .downloads {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 23px;
-}
-
-footer .downloads .cv {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 35px;
-    color: red;
-}
-
-footer .networks {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 23px;
-}
-
-footer .logo-links {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-}
-
 @media screen and (max-width: 996px) {
     .Nom {
         font-size: 2em;

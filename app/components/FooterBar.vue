@@ -1,10 +1,5 @@
 <template>
     <footer>
-        <div class="contacts">
-            <h1>Contact</h1>
-            <p></p>
-            <p></p>
-        </div>
         <div class="downloads">
             <a href="/files/CV_Lucas_Bigeard_2025.pdf" class="cv" download
                 >Télécharger CV</a
@@ -29,3 +24,67 @@
         </div>
     </footer>
 </template>
+
+<style scoped>
+footer {
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 60px;
+}
+
+footer .contacts h1 {
+    margin-bottom: 23px;
+}
+
+footer .contacts {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+footer .downloads {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+footer .downloads .cv {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 35px;
+    color: red;
+}
+
+footer .networks {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+footer .logo-links {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+@media screen and (max-width: 996px) {
+    footer {
+        flex-direction: column;
+        gap: 40px;
+        justify-content: center;
+    }
+
+    footer .downloads .cv {
+        font-size: 28px;
+    }
+
+    footer .logo-links img {
+        width: 32px;
+    }
+}
+</style>
