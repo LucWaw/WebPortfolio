@@ -1,12 +1,13 @@
 <template>
     <section class="about_me" id="about">
-        <img src="/images/me.jpg" alt="Photo de moi" />
+        <NuxtImg src="/images/me.jpg" alt="Photo de moi" />
 
         <p>
-            Je recherche actuellement un emploi.Passionné par la programmation et la technologie, je m'épanouis dans
-            la création d'applications utiles, responsive et accessibles.
-            Titulaire d'un BUT Informatique, j'ai développé une solide base en
-            développement, test et maintenance d'applications.<br /><br />
+            Je recherche actuellement un emploi.Passionné par la programmation
+            et la technologie, je m'épanouis dans la création d'applications
+            utiles, responsive et accessibles. Titulaire d'un BUT Informatique,
+            j'ai développé une solide base en développement, test et maintenance
+            d'applications.<br /><br />
 
             Ancien étudiant du parcours Développeur d'application Android chez
             OpenClassrooms, je continue à perfectionner mes compétences en

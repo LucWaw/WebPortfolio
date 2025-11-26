@@ -17,7 +17,7 @@
                     <div class="calc"></div>
 
                     <div class="infos">
-                        <img
+                        <NuxtImg
                             class="logo_gitplatform"
                             :src="getPlatformLogo(repo.isGitHub)"
                             alt="Plateforme Logo"
@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    <img :src="repo.image" :alt="repo.name" class="bg-img" />
+                    <NuxtImg :src="repo.image" :alt="repo.name" class="bg-img" />
                 </div>
             </div>
 
