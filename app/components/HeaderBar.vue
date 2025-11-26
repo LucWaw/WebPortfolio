@@ -57,8 +57,8 @@ header {
 
 header .left,
 header .right {
+    width: 224px;
     flex-shrink: 0;
-
     @supports (animation-timeline: view()) {
         animation: collapseItem linear forwards;
         animation-timeline: scroll();

@@ -80,11 +80,14 @@ const {
     data: repos,
     pending,
     error,
-} = useFetch<Repository[]>("/api/reposGits", {
+} = useFetch<Repository[]>("/api/reposGithub", {
     key: "reposGits-data",
     lazy: true,
+    transform: (response) => {
+        return response.data.repos || [];
+    },
 });
-
+console.log(repos);
 // --- 2. Carousel State ---
 const currentIndex = ref(0);
 const isMobile = ref(false);
