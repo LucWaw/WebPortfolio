@@ -5,6 +5,7 @@ export class Repository {
     readonly image: string;
     readonly languages: Array<string>;
     readonly url: string;
+    readonly isGitHub;
 
     constructor(
         name: string,
@@ -19,17 +20,8 @@ export class Repository {
         this.image = image;
         this.languages = languages;
         this.url = url;
+        this.isGitHub = isGitHub;
     }
-}
-
-export enum Platform {
-    GitHub,
-    GitLab,
-}
-
-export interface GitRepo {
-    platformName: Platform;
-    repos: Repository[];
 }
 
 export interface ApiResponse<T> {
@@ -53,5 +45,22 @@ export interface GitHubCommitRaw {
         author: { date: string };
         message: string;
     };
+    [key: string]: any;
+}
+
+export interface GitLabProjectRaw {
+    id: number;
+    name: string;
+    web_url: string;
+    avatar_url: string | null;
+    [key: string]: any;
+}
+
+export interface GitLabCommitRaw {
+    id: string;
+    short_id: string;
+    created_at: string;
+    message: string;
+    author_name: string;
     [key: string]: any;
 }

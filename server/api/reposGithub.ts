@@ -1,4 +1,3 @@
-import { GitRepo } from "~~/shared/types/ApiResponse";
 import { fetchGitHubRepos } from "../fetchGits/fetchGitHubRepos";
 
 async function fetchRepos(
@@ -13,8 +12,7 @@ async function fetchRepos(
 }
 
 export default defineCachedEventHandler(
-    //definecached eventhandler
-    async (event): Promise<ApiResponse<GitRepo>> => {
+    async (event): Promise<ApiResponse<Repository[]>> => {
         const tokenGithub = useRuntimeConfig().githubToken;
         const {
             public: { githubUser },
@@ -25,10 +23,7 @@ export default defineCachedEventHandler(
 
         return {
             success: true,
-            data: {
-                platformName: Platform.GitHub,
-                repos: repos,
-            },
+            data: repos,
             message: `${repos.length} Repositories retrieved successfully`,
         };
     },

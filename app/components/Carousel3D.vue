@@ -84,7 +84,7 @@ const {
     key: "reposGits-data",
     lazy: true,
     transform: (response) => {
-        return response.data.repos || [];
+        return response.data || [];
     },
 });
 console.log(repos);
