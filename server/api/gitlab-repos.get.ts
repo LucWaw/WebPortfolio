@@ -24,13 +24,13 @@ export default defineCachedEventHandler(
         return {
             success: true,
             data: repos,
-            message: `${repos.length} Repositories retrieved successfully`,
+            message: `${repos.length} GitLab Repositories retrieved successfully`,
         };
     },
     {
         maxAge: 60 * 1, // 1 minutes
         swr: false,
-        name: "git-hub-repos",
-        getKey: () => "all-git-hub-repos",
+        name: "gitlab-repos",
+        getKey: () => "gitlab-repos",
     }
 );

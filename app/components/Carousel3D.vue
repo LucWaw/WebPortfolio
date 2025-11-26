@@ -80,7 +80,7 @@ const {
     data: repos,
     pending,
     error,
-} = useFetch<Repository[]>("/api/reposGithub", {
+} = useFetch<Repository[]>("/api/all-repos", {
     key: "reposGits-data",
     lazy: true,
     transform: (response) => {

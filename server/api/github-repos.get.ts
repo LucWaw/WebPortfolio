@@ -19,18 +19,17 @@ export default defineCachedEventHandler(
         } = useRuntimeConfig();
 
         const repos = await fetchRepos(githubUser, tokenGithub);
-        shuffleArray(repos);
 
         return {
             success: true,
             data: repos,
-            message: `${repos.length} Repositories retrieved successfully`,
+            message: `${repos.length} GitHub Repositories retrieved successfully`,
         };
     },
     {
         maxAge: 60 * 1, // 1 minutes
         swr: false,
-        name: "git-hub-repos",
-        getKey: () => "all-git-hub-repos",
+        name: "github-repos",
+        getKey: () => "github-repos",
     }
 );
