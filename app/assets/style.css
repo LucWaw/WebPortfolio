@@ -1,89 +1,89 @@
 html,
 body,
 #__nuxt {
-    width: 100%;
-    min-height: 100%;
-    margin: 0;
-    padding: 0;
-    justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Roboto, arial;
-    font-weight: 300;
-    font-size: 20px;
-    line-height: 151%;
-    --headercolor: #5387d9;
+  font-family: Roboto, arial;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 151%;
+  --headercolor: #5387d9;
 }
 
 h1 {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 900;
-    font-size: 35px;
-    line-height: 30px;
-    display: flex;
-    align-items: center;
-    color: var(--blue-1);
-    justify-content: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 35px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  color: var(--blue-1);
+  justify-content: center;
 }
 
 .about_me {
-    border-radius: 20px;
+  border-radius: 20px;
 
-    align-items: center;
-    text-decoration: none;
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    padding: 60px 20px;
-    margin-top: 60px;
-    margin-bottom: 60px;
-    background: #f9fbfd;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 60px 20px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  background: #f9fbfd;
 }
 
 .about_me p {
-    inline-size: 650px;
+  inline-size: 650px;
 }
 
 .about_me img {
-    inline-size: 20%;
-    border-radius: 20px;
+  inline-size: 20%;
+  border-radius: 20px;
 }
 
 @media screen and (max-width: 996px) {
-    .Nom {
-        font-size: 2em;
-        margin: 0;
-    }
+  .Nom {
+    font-size: 2em;
+    margin: 0;
+  }
 
-    .about_me {
-        flex-direction: column;
-    }
+  .about_me {
+    flex-direction: column;
+  }
 
-    .about_me p {
-        inline-size: auto;
-        text-align: center;
-        margin-top: 20px;
-    }
+  .about_me p {
+    inline-size: auto;
+    text-align: center;
+    margin-top: 20px;
+  }
 
-    .about_me img {
-        inline-size: 50%;
-    }
+  .about_me img {
+    inline-size: 50%;
+  }
 
-    body,
-    html {
-        overflow-x: hidden;
-    }
+  body,
+  html {
+    overflow-x: hidden;
+  }
 
-    .portfolio_carousel,
-    .carousel-container {
-        overflow: hidden;
-    }
+  .portfolio_carousel,
+  .carousel-container {
+    overflow: hidden;
+  }
 }
