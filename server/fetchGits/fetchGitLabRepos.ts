@@ -31,6 +31,7 @@ async function fetchGitLabRepos(
     ])
 
     const lastFivecommitsList = commitsData.map(commit => ({
+      id: commit.id,
       date: commit.created_at,
       message: commit.message,
     }))

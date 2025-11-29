@@ -22,13 +22,14 @@ async function fetchGitHubRepos(
         `https://api.github.com/repos/${username}/${repo.name}/commits?per_page=5`,
         { headers },
       ),
-      $fetch<Record<string, any>>(
+      $fetch<Record<string, number>>(
         `https://api.github.com/repos/${username}/${repo.name}/languages`,
         { headers },
       ),
     ])
 
-    const lastFivecommitsList = commitsData.map(({ commit }) => ({
+    const lastFivecommitsList = commitsData.map(({ sha, commit }) => ({
+      id: sha,
       date: commit.author.date,
       message: commit.message,
     }))
