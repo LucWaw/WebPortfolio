@@ -29,7 +29,6 @@ const {
 
 const repos = computed(() => {
   const allRepos = ([] as Repository[]).concat(gitlabRepos.value ?? [], githubRepos.value ?? [])
-  shuffleArray(allRepos)
   return allRepos
 })
 
@@ -78,22 +77,15 @@ function prev() {
 }
 
 function goTo(index: number) {
-  if (index === currentIndex.value) {
-    // Guard access to repos.value and the repo's url
-    const repo = repos.value?.[index]
-    const url = repo?.url
-    if (url) {
-      window.open(url, '_blank')
-    }
-    else {
-      // URL or repo not available
-      console.warn('Repository URL is not available for index', index)
-    }
-    return
-  }
   if (!repos.value)
     return
   currentIndex.value = index
+}
+
+function openRepo(url?: string) {
+  if (url) {
+    window.open(url, '_blank')
+  }
 }
 
 function getPlatformLogo(provider: string): string {
@@ -104,7 +96,7 @@ function getPlatformLogo(provider: string): string {
   return ''
 }
 
-function getFiveCommits(commits?: Array<RepositoryCommit[]>) {
+function getFiveCommits(commits?: RepositoryCommit[]) {
   const result = [...(commits || [])]
   return result.slice(0, 5)
 }
@@ -157,13 +149,15 @@ onKeyStroke('ArrowRight', () => {
               :src="getPlatformLogo(repo.provider)"
               alt="Plateforme Logo"
             />
-
+            <button class="open-btn" @click.stop="openRepo(repo.url)">
+              Voir le dépôt
+            </button>
             <div class="text">
               <h3>{{ truncate(repo.name, 16) }}</h3>
 
               <ul class="commits">
                 <li
-                  v-for="(commit) in getFiveCommits(
+                  v-for="commit in getFiveCommits(
                     repo.lastFivecommitsList,
                   )"
                   :key="commit.id"
@@ -214,6 +208,24 @@ onKeyStroke('ArrowRight', () => {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+* .open-btn {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  color: #222;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+  align-self: start;
+}
+
+.open-btn:hover {
+  background: white;
+  transform: scale(1.05);
+}
 
 .portfolio_carousel {
   width: 100%;
@@ -241,6 +253,7 @@ onKeyStroke('ArrowRight', () => {
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
 }
 
 .card {
@@ -253,6 +266,7 @@ onKeyStroke('ArrowRight', () => {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
+  pointer-events: auto;
   opacity: 0;
 }
 
@@ -270,7 +284,6 @@ onKeyStroke('ArrowRight', () => {
   width: 100%;
   height: 100%;
 
-  /* Changement ici : */
   background: linear-gradient(
     to bottom,
     transparent 0%,
@@ -312,17 +325,18 @@ onKeyStroke('ArrowRight', () => {
 .card.center {
   z-index: 10;
   transform: scale(1.1) translateZ(0);
-  opacity: 1; /* Force l'affichage */
+  opacity: 1;
   pointer-events: auto;
+  cursor: default;
 }
 
 .card.center .infos {
-  opacity: 1; /* Affiche le texte */
+  opacity: 1;
   pointer-events: auto;
 }
 
 .card.center .calc {
-  display: block; /* Affiche le dégradé violet */
+  display: block;
 }
 
 .card.center .bg-img {
@@ -333,7 +347,6 @@ onKeyStroke('ArrowRight', () => {
   opacity: 1;
 }
 
-/* LEFT 1 */
 .card.left-1 {
   z-index: 5;
   transform: translateX(-200px) scale(0.9) translateZ(-100px);
@@ -343,7 +356,6 @@ onKeyStroke('ArrowRight', () => {
   filter: grayscale(30%);
 }
 
-/* RIGHT 1 */
 .card.right-1 {
   z-index: 5;
   transform: translateX(200px) scale(0.9) translateZ(-100px);
@@ -353,7 +365,6 @@ onKeyStroke('ArrowRight', () => {
   filter: grayscale(30%);
 }
 
-/* LEFT 2 */
 .card.left-2 {
   z-index: 1;
   transform: translateX(-400px) scale(0.8) translateZ(-300px);
@@ -363,7 +374,6 @@ onKeyStroke('ArrowRight', () => {
   filter: grayscale(30%);
 }
 
-/* RIGHT 2 */
 .card.right-2 {
   z-index: 1;
   transform: translateX(400px) scale(0.8) translateZ(-300px);
@@ -373,13 +383,11 @@ onKeyStroke('ArrowRight', () => {
   filter: grayscale(30%);
 }
 
-/* HIDDEN */
 .card.hidden {
   opacity: 0;
   pointer-events: none;
 }
 
-/* -- TYPOGRAPHIE INTERNE -- */
 .card .text {
   color: white;
   display: flex;
@@ -390,7 +398,7 @@ onKeyStroke('ArrowRight', () => {
 .card .text h3 {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* number of lines to show */
+  -webkit-line-clamp: 1;
   line-clamp: 1;
   word-break: break-all;
   -webkit-box-orient: vertical;
@@ -403,9 +411,9 @@ onKeyStroke('ArrowRight', () => {
 }
 
 .card .commits {
-  list-style: none; /* Enlève les puces */
+  list-style: none;
   padding: 0;
-  max-height: 150px; /* Limite la hauteur */
+  max-height: 150px;
   overflow: hidden;
 }
 
@@ -414,13 +422,13 @@ onKeyStroke('ArrowRight', () => {
 
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* number of lines to show */
+  -webkit-line-clamp: 1;
   line-clamp: 1;
   -webkit-box-orient: vertical;
   word-break: break-all;
   font-family: Roboto, sans-serif;
   font-weight: 300;
-  font-size: 12px; /* Un peu plus petit pour les commits */
+  font-size: 12px;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 4px;
@@ -432,7 +440,6 @@ onKeyStroke('ArrowRight', () => {
   margin-right: 5px;
 }
 
-/* -- NAVIGATION DOTS -- */
 .dots {
   display: flex;
   justify-content: center;
@@ -455,7 +462,6 @@ onKeyStroke('ArrowRight', () => {
   transform: scale(1.2);
 }
 
-/* -- ARROWS -- */
 .nav-arrow {
   position: absolute;
   top: 50%;
@@ -490,7 +496,6 @@ onKeyStroke('ArrowRight', () => {
   padding-left: 3px;
 }
 
-/* -- MEDIA QUERIES -- */
 @media screen and (max-width: 996px) {
   .carousel-container {
     width: 100%;
@@ -528,7 +533,6 @@ onKeyStroke('ArrowRight', () => {
   }
 
   .dots {
-    /* separate the dots in two groups one on top of the other */
     width: 90%;
     flex-wrap: wrap;
     gap: 15px;
