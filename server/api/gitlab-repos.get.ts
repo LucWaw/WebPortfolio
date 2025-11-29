@@ -25,7 +25,7 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 0.5,
+    maxAge: 60 * 60,
     swr: false,
     name: 'gitlab-repos',
     getKey: () => 'gitlab-repos',
