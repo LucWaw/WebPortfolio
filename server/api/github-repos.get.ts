@@ -25,7 +25,7 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60,
+    maxAge: 60 * 0.5,
     swr: false,
     name: 'github-repos',
     getKey: () => 'github-repos',

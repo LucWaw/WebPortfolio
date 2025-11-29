@@ -9,48 +9,50 @@ async function fetchGitLabRepos(
     'Accept': 'application/json',
   }
 
-  const projectResponse = await $fetch<GitLabProjectRaw[]>(
+  const projectResponsePromise = $fetch<GitLabProjectRaw[]>(
     `https://gitlab.com/api/v4/users/${username}/projects?per_page=100&visibility=public`,
     { headers, method: 'GET' },
   )
 
-  const repositories: Repository[] = []
+  const projects = await projectResponsePromise
 
-  for (const project of projectResponse) {
+  const tasks: Promise<Repository>[] = []
+
+  for (const project of projects) {
     const projectId = project.id
 
-    const [commitsData, languagesData] = await Promise.all([
-      $fetch<GitLabCommitRaw[]>(
-        `https://gitlab.com/api/v4/projects/${projectId}/repository/commits?per_page=5`,
-        { headers },
-      ),
-      $fetch<Record<string, number>>(
-        `https://gitlab.com/api/v4/projects/${projectId}/languages`,
-        { headers },
-      ),
-    ])
+    const task = (async () => {
+      const [commitsData, languagesData] = await Promise.all([
+        $fetch<GitLabCommitRaw[]>(
+          `https://gitlab.com/api/v4/projects/${projectId}/repository/commits?per_page=5`,
+          { headers },
+        ),
+        $fetch<Record<string, number>>(
+          `https://gitlab.com/api/v4/projects/${projectId}/languages`,
+          { headers },
+        ),
+      ])
 
-    const lastFivecommitsList: RepositoryCommit[] = commitsData.map(commit => ({
-      id: commit.id,
-      date: commit.created_at,
-      message: commit.message,
-    }))
+      const lastFivecommitsList: RepositoryCommit[] = commitsData.map(commit => ({
+        id: commit.id,
+        date: commit.created_at,
+        message: commit.message,
+      }))
 
-    const image = project.avatar_url ?? 'default_gitlab_image.png'
-
-    repositories.push(
-      {
+      return {
         name: project.name,
         lastFivecommitsList,
-        image,
+        image: project.avatar_url ?? 'default_gitlab_image.png',
         languages: Object.keys(languagesData),
         url: project.web_url,
         provider: 'GitLab',
-      },
-    )
+      } as Repository
+    })()
+
+    tasks.push(task)
   }
 
-  return repositories
+  return Promise.all(tasks)
 }
 
 export { fetchGitLabRepos }
