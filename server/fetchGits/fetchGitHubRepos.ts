@@ -28,7 +28,7 @@ async function fetchGitHubRepos(
       ),
     ])
 
-    const lastFivecommitsList = commitsData.map(({ sha, commit }) => ({
+    const lastFivecommitsList: RepositoryCommit[] = commitsData.map(({ sha, commit }) => ({
       id: sha,
       date: commit.author.date,
       message: commit.message,

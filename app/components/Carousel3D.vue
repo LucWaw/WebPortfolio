@@ -22,8 +22,6 @@ const {
   data: gitlabRepos,
   status: gitlabStatus,
   error: gitlabError,
-  refresh: refreshGitlab,
-  clear: clearGitlab,
 } = useAsyncData<Repository[]>('gitlab-repos', async () => {
   const res = await $fetch('/api/gitlab-repos')
   return res.data
@@ -98,21 +96,16 @@ function goTo(index: number) {
   currentIndex.value = index
 }
 
-function getPlatformLogo(isGithub?: boolean | null): string {
-  // If explicit boolean true -> GitHub, otherwise default to GitLab or empty fallback
-  if (isGithub === true)
+function getPlatformLogo(provider: string): string {
+  if (provider === 'GitHub')
     return '/images/GitHub.svg'
-  if (isGithub === false)
+  if (provider === 'GitLab')
     return '/images/GitLab.svg'
-  // When unknown, return empty string so template v-if can control rendering
   return ''
 }
 
-function getFiveCommits(commits?: Array<any>) {
+function getFiveCommits(commits?: Array<RepositoryCommit[]>) {
   const result = [...(commits || [])]
-  while (result.length < 5) {
-    result.push(null)
-  }
   return result.slice(0, 5)
 }
 
@@ -122,13 +115,6 @@ function formatDate(dateStr: string) {
     return ''
   const date = new Date(dateStr)
   return new Intl.DateTimeFormat('fr-FR').format(date)
-}
-
-// --- 6. EVENTS (Responsive + Keyboard) ---
-function checkMobile() {
-  if (typeof window !== 'undefined') {
-    isMobile.value = window.innerWidth <= 996
-  }
 }
 
 onKeyStroke('ArrowLeft', () => {
@@ -146,16 +132,15 @@ onKeyStroke('ArrowRight', () => {
       Erreur de chargement
     </div>
 
-    <div v-else-if="githubPending || gitlabPending || !repos">
+    <div v-else-if="githubStatus === 'pending' || gitlabStatus === 'pending' || !repos">
       Chargement...
     </div>
     <div v-else class="carousel-container">
       <button class="nav-arrow left" @click="prev">
         ‹
       </button>
-      <code><pre>{{ repos }}</pre></code>
 
-      <!-- <div class="carousel-track">
+      <div class="carousel-track">
         <div
           v-for="(repo, i) in repos"
           :key="repo.name"
@@ -167,9 +152,9 @@ onKeyStroke('ArrowRight', () => {
 
           <div class="infos">
             <NuxtImg
-              v-if="getPlatformLogo(repo.isGitHub)"
+              v-if="getPlatformLogo(repo.provider)"
               class="logo_gitplatform"
-              :src="getPlatformLogo(repo.isGitHub)"
+              :src="getPlatformLogo(repo.provider)"
               alt="Plateforme Logo"
             />
 
@@ -178,10 +163,10 @@ onKeyStroke('ArrowRight', () => {
 
               <ul class="commits">
                 <li
-                  v-for="(commit, cIndex) in getFiveCommits(
+                  v-for="(commit) in getFiveCommits(
                     repo.lastFivecommitsList,
                   )"
-                  :key="cIndex"
+                  :key="commit.id"
                   :class="{ empty: !commit }"
                 >
                   <span v-if="commit" class="date">
@@ -203,7 +188,7 @@ onKeyStroke('ArrowRight', () => {
             class="bg-img"
           />
         </div>
-      </div> -->
+      </div>
 
       <button class="nav-arrow right" @click="next">
         ›

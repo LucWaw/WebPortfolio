@@ -1,11 +1,16 @@
 // A simple interface to represent a Git repository with its name, commit history, and an associated image.
 export interface Repository {
   name: string
-  lastFivecommitsList: Array<{ id: string, date: string, message: string }>
+  lastFivecommitsList: RepositoryCommit[]
   image: string
-  languages: Array<string>
+  languages: string[]
   url: string
   provider: 'GitHub' | 'GitLab'
+}
+export interface RepositoryCommit {
+  id: string // short SHA / short ID
+  date: string
+  message: string
 }
 
 export interface GitHubRepoRaw {
