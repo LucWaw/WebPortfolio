@@ -34,7 +34,6 @@ const repos = computed(() => {
 
 // --- 2. Carousel State ---
 const currentIndex = ref(0)
-const isMobile = ref(false)
 
 // --- 3. Class Logic ---
 function getCardClass(index: number) {
@@ -50,14 +49,10 @@ function getCardClass(index: number) {
     return 'right-1'
   if (offset === total - 1)
     return 'left-1'
-
-  // If not mobile, also show cards at depth 2
-  if (!isMobile.value) {
-    if (offset === 2)
-      return 'right-2'
-    if (offset === total - 2)
-      return 'left-2'
-  }
+  if (offset === 2)
+    return 'right-2'
+  if (offset === total - 2)
+    return 'left-2'
 
   return 'hidden'
 }
