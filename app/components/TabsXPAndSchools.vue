@@ -15,12 +15,32 @@ const value = ref('experiences')
       </Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content class="contents" value="experiences">
-      <Xp url-image="/images/Numeriwan.png" xp-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud id exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim est laborum." />
-      <hr>
-      <Xp url-image="/images/CATS.png" xp-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud id exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim est laborum." />
+      <div class="xp-grid">
+        <Xp
+          url-image="/images/Numeriwan.png"
+          xp-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud id exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim est laborum."
+        />
+        <hr class="verticalhr">
+        <Xp
+          url-image="/images/CATS.png"
+          xp-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud id exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim est laborum."
+        />
+      </div>
     </Tabs.Content>
-    <Tabs.Content class="contents" value="formations">
-      Formations Content
+
+    <Tabs.Content value="formations">
+      <Schools
+        url-image="/images/NantesUniv.png"
+        xp-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud id exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim est laborum."
+      />
+
+      <hr class="horizontalhr">
+
+      <Schools
+        url-image="/images/OpenClassrooms.png"
+        xp-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud id exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim est laborum."
+        :reverse="true"
+      />
     </Tabs.Content>
   </Tabs.Root>
 </template>
@@ -104,12 +124,40 @@ const value = ref('experiences')
   opacity: 0.4;
 }
 
-.contents {
-  margin-top: 30px;
+.xp-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: 40px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-/* responsive tweaks */
+.horizontalhr {
+  margin: auto;
+  width: 450px;
+}
+
+.verticalhr {
+  margin: auto;
+  width: 1px;
+  height: 200px;
+}
 @media screen and (max-width: 996px) {
+  .xp-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .horizontalhr {
+    display: none;
+  }
+
+  .verticalhr {
+    display: none;
+  }
+
   .header {
     gap: 12px;
   }
