@@ -3,7 +3,7 @@
     <NuxtImg src="/images/me.jpg" alt="Photo de moi" />
 
     <p>
-      Je recherche actuellement un emploi.Passionné par la programmation
+      Je recherche actuellement un emploi. Passionné par la programmation
       et la technologie, je m'épanouis dans la création d'applications
       utiles, responsive et accessibles. Titulaire d'un BUT Informatique,
       j'ai développé une solide base en développement, test et maintenance

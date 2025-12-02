@@ -20,6 +20,7 @@
 
 <style scoped>
 footer {
+  margin-top: 80px;
   align-items: center;
   display: flex;
   justify-content: space-around;

@@ -2,6 +2,7 @@
   <main>
     <Carousel3D />
     <AboutMe />
+    <TabsXPAndSchools />
   </main>
 </template>
 
