@@ -92,8 +92,17 @@ function getPlatformLogo(provider: string): string {
 }
 
 function getFiveCommits(commits?: RepositoryCommit[]) {
-  const result = [...(commits || [])]
-  return result.slice(0, 5)
+  const list = commits ? [...commits] : []
+
+  while (list.length < 5) {
+    list.push({
+      id: '',
+      message: '',
+      date: '',
+    } as RepositoryCommit)
+  }
+
+  return list.slice(0, 5)
 }
 
 // Simple date formatting (e.g., 15/02/2025)
